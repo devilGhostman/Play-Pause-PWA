@@ -72,7 +72,7 @@ const LogIn = ({ handlecloseHandler }:any) => {
   console.log(errors);
 
   async function handleGithubSignin() {
-    signIn("github", { callbackUrl: "http://localhost:3000" });
+    signIn("github", { callbackUrl: "/" });
   }
 
   const onGuestLogin = async () => {

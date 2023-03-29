@@ -38,7 +38,7 @@ const PSlider = styled(Slider)(({ theme, ...props }) => ({
 // };
 
 const Radio = () => {
-  const audioPlayer = useRef(null);
+  const audioPlayer = useRef();
 
   const [songdata, setsongdata] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -55,6 +55,7 @@ const Radio = () => {
 
   const getSongData = async () => {
     const res = await axios.get("/music/");
+    console.log(res.data.musics);
     setsongdata(res.data.musics);
     setTimeout(() => {
       setLoading(false);
@@ -67,7 +68,7 @@ const Radio = () => {
 
   const firstSong = songdata[0];
   useEffect(() => {
-    setcurrentSong(firstSong?.songPath);
+    setcurrentSong(firstSong?.songPath2);
   }, [firstSong]);
 
   useEffect(() => {
@@ -78,7 +79,7 @@ const Radio = () => {
 
   const togglePlay = () => {
     if (!isPlaying) {
-      audioPlayer.current?.play();
+      audioPlayer.current.play();
     }
     setIsPlaying(true);
     setMute(false);
@@ -119,10 +120,10 @@ const Radio = () => {
   const toggleNextSong = () => {
     if (index >= songdata.length - 1) {
       setIndex(0);
-      setcurrentSong(songdata[0]?.songPath);
+      setcurrentSong(songdata[0]?.songPath2);
     } else {
       setIndex((prev) => prev + 1);
-      setcurrentSong(songdata[index + 1]?.songPath);
+      setcurrentSong(songdata[index + 1]?.songPath2);
     }
     setIsPlaying(true);
   };
@@ -139,89 +140,14 @@ const Radio = () => {
     return <p>No Data yet</p>;
   }
   return (
-    // <div className="w-[90%] max-w-[1288px] mx-auto">
-
-    //   <h1 className="tracking-normal border-b-2 border-[red] font-semibold text-3xl text-white block">
-    //     RADIO
-    //   </h1>
-    //   <audio
-    //     src={`http://localhost:5000/${currentSong}`}
-    //     ref={audioPlayer}
-    //     muted={mute}
-    //     autoPlay
-    //     onEnded={toggleNextSong}
-    //   />
-    //   <div className="w-[100%] h-[300px] min-h-[250px] mt-4 relative radioBackground playing">
-    //     <div className="relative mx-4 mt-4 pt-4 b-[50px] flex flex-row items-center md:justify-around justify-between">
-    //       <Stack
-    //         direction="row"
-    //         spacing={1}
-    //         sx={{
-    //           display: "flex",
-    //           justifyContent: "flex-start",
-    //           width: "20%",
-    //           alignItems: "center",
-    //         }}
-    //       >
-    //         <VolumeBtns />
-
-    //         <PSlider
-    //           min={0}
-    //           max={100}
-    //           value={volume}
-    //           onChange={(e, v) => setVolume(v)}
-    //         />
-    //       </Stack>
-    //       <Stack
-    //         sx={{
-    //           display: "flex",
-    //           justifyContent: "flex-end",
-    //           alignItems: "center",
-    //           flexDirection: "row",
-    //           width: "40%",
-    //         }}
-    //       >
-    //         <h1 className="font-semibold md:text-3xl text-[2xl] text-white block">
-    //           {songdata[index]?.title}
-    //         </h1>
-    //       </Stack>
-    //     </div>
-    //     <div className="relative w-full mx-auto top-[25%] text-center flex justify-center content-center cursor-pointer z-5 songBackground">
-    //       {isPlaying ? (
-    //         <>
-    //           <BsFillPauseFill
-    //             className="text-[red] text-6xl"
-    //             onClick={togglePause}
-    //           />
-    //         </>
-    //       ) : (
-    //         <BsFillPlayFill
-    //           className="text-[red] text-6xl ml-[1px]"
-    //           onClick={togglePlay}
-    //         />
-    //       )}
-    //     </div>
-    //     <div className="relative w-full z-[-1] top-[-33%] mx-auto flex justify-center content-center">
-    //       {isPlaying && (
-    //         <>
-    //           <img
-    //             src="./songplaying.gif"
-    //             width={300}
-    //             height={300}
-    //             className="cursor-pointer object-contain"
-    //           />
-    //         </>
-    //       )}
-    //     </div>
-    //   </div>
-    // </div>
     <>
       <div className="m-0 p-0 font-semibold text-3xl text-white pb-4 mb-4 border-b-4 border-[red] uppercase w-[90%] max-w-[1338px]  mx-auto">
         Radio
       </div>
       <div className="relative w-full bg-slate-300 h-[500px] md:h-[700px] overflow-hidden mb-2">
         <audio
-          src={`http://localhost:5000/${currentSong}`}
+          // src={`http://localhost:5000/${currentSong}`}
+          src={currentSong}
           ref={audioPlayer}
           muted={mute}
           autoPlay

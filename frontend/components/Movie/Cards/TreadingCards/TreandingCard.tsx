@@ -43,7 +43,7 @@ const TreandingCard = () => {
 
   const getMoviesData = async (cancelToken: CancelTokenSource) => {
     await axios
-      .get("http://localhost:5000/api/watch?popular=true", {
+      .get("https://play-pause-api.vercel.app/api/watch?popular=true", {
         cancelToken: cancelToken.token,
       })
       .then((res) => {

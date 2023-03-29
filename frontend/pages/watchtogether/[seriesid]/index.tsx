@@ -15,7 +15,7 @@ import MessageCon from "../../../components/Movie/Cards/watchtogCard/MessageCon"
 import LoadingStyle from "../../../components/loadingStyle/LoadingStyle";
 
 let socket: any;
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://play-pause-api.vercel.app";
 
 type moviedataType = {
   id: string;
@@ -131,7 +131,9 @@ const index = () => {
     const signal = controller.signal;
     if (router.isReady) {
       setLoading(true);
-      fetch(`http://localhost:5000/api/watch/${seriesid}`, { signal })
+      fetch(`https://play-pause-api.vercel.app/api/watch/${seriesid}`, {
+        signal,
+      })
         .then((response) => {
           return response.json();
         })
@@ -171,7 +173,8 @@ const index = () => {
               <div className="relative mx-[20px] md:mx-auto">
                 <video
                   // src={`http://localhost:5000/${moviedata.moviePath}`}
-                  src={`http://localhost:5000/movies/1670752346987-ved.mp4`}
+                  // src={`http://localhost:5000/movies/1670752346987-ved.mp4`}
+                  src="https://dl.streamcloud.club/files/yts/720p/6393e826a573603799b4788b.mp4"
                   controls
                   className="bsolute top-[0px] left-[5%] w-[100%] h-[80%]"
                   width="800"

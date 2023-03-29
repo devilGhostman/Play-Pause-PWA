@@ -15,14 +15,17 @@ export default NextAuth({
           password: credentials.password,
         };
 
-        const res = await fetch("http://localhost:5000/api/users/login/", {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await fetch(
+          "https://play-pause-api.vercel.app/api/users/login/",
+          {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         const data = await res.json();
 

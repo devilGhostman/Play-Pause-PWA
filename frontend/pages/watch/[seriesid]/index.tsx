@@ -54,7 +54,9 @@ const index = () => {
     const signal = controller.signal;
     if (router.isReady) {
       setLoading(true);
-      fetch(`http://localhost:5000/api/watch/${seriesid}`, { signal })
+      fetch(`https://play-pause-api.vercel.app/api/watch/${seriesid}`, {
+        signal,
+      })
         .then((response) => {
           return response.json();
         })

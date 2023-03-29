@@ -517,7 +517,7 @@ const MainContainer = () => {
           <div className="mt-6 w-full p-3 bg-[#171822]">
             <audio
               // src={`http://localhost:5000/${currentSong}`}
-              src={`${currentSong}`}
+              src={currentSong}
               ref={audioPlayer}
               muted={mute}
               autoPlay={autoplay}

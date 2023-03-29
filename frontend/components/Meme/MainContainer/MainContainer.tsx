@@ -21,7 +21,7 @@ const MainContainer = () => {
 
   const getMemeData = async (cancelToken: CancelTokenSource) => {
     await axios
-      .get("http://localhost:5000/api/meme/", {
+      .get("https://play-pause-api.vercel.app/api/meme/", {
         cancelToken: cancelToken.token,
       })
       .then((res) => {

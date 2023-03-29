@@ -35,9 +35,12 @@ const MustWatch = () => {
     const signal = controller.signal;
 
     setLoading(true);
-    fetch(`http://localhost:5000/api/watch/64204a871d252cb4ae5fa525`, {
-      signal,
-    })
+    fetch(
+      `https://play-pause-api.vercel.app/api/watch/64204a871d252cb4ae5fa525`,
+      {
+        signal,
+      }
+    )
       .then((response) => {
         return response.json();
       })
