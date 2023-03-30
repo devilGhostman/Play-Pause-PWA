@@ -10,7 +10,7 @@ const SimilarCateCard = (props: {
   description: string;
 }) => {
   return (
-    <div className="card group">
+    <div className="card group h-[280px] sm:h-[300px]">
       <a href={`/watch/${props.id}`}>
         <img
           className="cards__img z-[1] group-hover:hidden"

@@ -303,8 +303,8 @@
     overflow: hidden;
     margin: 0.19rem;
     cursor: pointer;
-    min-width: 200px;
-    height: 300px;
+    min-width: 160px;
+    /* height: 300px; */
     z-index: 0;
     border: 1px solid rgb(99, 99, 99);
   }

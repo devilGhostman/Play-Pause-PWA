@@ -7,6 +7,7 @@ import LoadingStyle from "../components/loadingStyle/LoadingStyle";
 import BottomBar from "../components/bottomBar/BottomBar";
 
 import { useSession } from "next-auth/react";
+import Footer from "../components/footer/Footer";
 
 type moviedataType = {
   id: string;
@@ -113,6 +114,7 @@ const watchtogether = () => {
         ))}
       </div>
       <BottomBar />
+      <Footer />
     </div>
   );
 };
