@@ -113,7 +113,7 @@ const watchtogether = () => {
           />
         ))}
       </div>
-      <BottomBar />
+      {/* <BottomBar /> */}
       <Footer />
     </div>
   );

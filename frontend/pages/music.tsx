@@ -9,7 +9,7 @@ import Footer from "../components/footer/Footer";
 const Music = () => {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Topbar />
       <main className="pt-[5rem] bg-black pb-2">
         <Radio />

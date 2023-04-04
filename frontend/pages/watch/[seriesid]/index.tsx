@@ -86,7 +86,7 @@ const index = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div
         className="banner"
         style={{ backgroundImage: `url(${moviedata.backdrop})` }}

@@ -260,7 +260,7 @@ const index = () => {
             </div>
           </div>
         </div>
-        <BottomBar />
+        {/* <BottomBar /> */}
       </div>
     </>
   );

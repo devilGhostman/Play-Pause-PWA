@@ -8,7 +8,7 @@ import Footer from "../components/footer/Footer";
 const meme = () => {
   return (
     <div className=" relative h-screen lg:h-[100vh]">
-      <Header />
+      {/* <Header /> */}
       <Topbar />
 
       <main className="pt-[5rem] bg-[black] pb-5">

@@ -16,7 +16,7 @@ const Home = () => {
         <link rel="manifest" href="/manifest.json" />
       </Head>
 
-      <Header />
+      {/* <Header /> */}
       <Topbar />
       <Banner />
       <main className="bg-[black] max-w-[full] pt-[3rem] md:pt-0 pb-5">
