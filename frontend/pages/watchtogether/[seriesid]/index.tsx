@@ -15,7 +15,7 @@ import MessageCon from "../../../components/Movie/Cards/watchtogCard/MessageCon"
 import LoadingStyle from "../../../components/loadingStyle/LoadingStyle";
 
 let socket: any;
-const ENDPOINT = "https://play-pause-api.vercel.app";
+const ENDPOINT = "https://play-pause-api.onrender.com";
 
 type moviedataType = {
   id: string;
