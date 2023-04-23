@@ -55,9 +55,10 @@ npm run dev
 
 ## Available commands
 
-Running commands with npm `npm run [command]`
+Running commands with npm `npm run [command]` and `npm [command]`
 
 | command         | description                                        |
 | :-------------- | :------------------------------------------------- |
+| `i` or `install`| Install all the dev dependency to run app          |
 | `dev`           | Starts a development instance of the app in nextjs |
 | `start`         | Starts a development instance of the app in nodejs |
