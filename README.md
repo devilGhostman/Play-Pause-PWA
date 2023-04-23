@@ -5,6 +5,12 @@
 https://play-pause-pwa.vercel.app/
 ```
 
+## NOTE
+In order to use PWA(Progressive Web Application) use chrome based browser
+
+https://user-images.githubusercontent.com/82955240/233855256-60b9270c-afdb-46a4-a335-f262d9b87764.mp4
+
+
 ## Getting started
 ### Prerequisites
 
