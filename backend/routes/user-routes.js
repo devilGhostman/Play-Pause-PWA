@@ -1,24 +1,26 @@
 const express = require("express");
-const { check } = require("express-validator");
+const multer = require("multer");
 
 const router = express.Router();
 const usersController = require("../controllers/user-controller");
+const { verifyUser, verifyAdmin } = require("../middleware/verify");
 
-router.get("/");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./userProfile/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
 
-router.post(
-  "/signup",
-  [
-    check("userName").not().isEmpty(),
-    check("email")
-      .normalizeEmail() // Test@test.com => test@test.com
-      .isEmail(),
-    check("password").isLength({ min: 6 }),
-    check("phoneNumber").notEmpty().isLength({min:10}),
-  ],
-  usersController.signup
-);
+const upload = multer({ storage });
+
+router.post("/signup", upload.single("picture"), usersController.signup);
 
 router.post("/login", usersController.login);
+router.get("/:pid", verifyUser, usersController.getUser);
+router.get("/:pid/friends", verifyUser, usersController.getUserFriends);
+router.patch("/:pid/:friendId", verifyUser, usersController.addRemoveFriend);
 
 module.exports = router;

@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-const multer = require("multer");
 const { validationResult } = require("express-validator");
 const HttpError = require("../models/http-error");
 const Movie = require("../models/movie");
@@ -110,7 +108,7 @@ const getMovies = async (req, res, next) => {
     }
   } catch (err) {
     const error = new HttpError(
-      "Fetching users failed, please try again later.",
+      "Fetching movies failed, please try again later.",
       500
     );
     return next(error);

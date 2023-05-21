@@ -10,6 +10,7 @@ const movieRoutes = require("./routes/movie-routes");
 const userRoutes = require("./routes/user-routes");
 const musicRoutes = require("./routes/music-routes");
 const memeRoutes = require("./routes/meme-route");
+const postRoutes = require("./routes/post-route");
 
 const app = express();
 const server = http.createServer(app);
@@ -17,19 +18,23 @@ dotenv.config();
 
 app.use("/songs", express.static("songs"));
 app.use("/movies", express.static("movies"));
+app.use("/posts", express.static("posts"));
+app.use("/userProfile", express.static("userProfile"));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(
   cors({
     origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   })
 );
 
 const io = new Server(server, {
   cors: {
     origin: "*",
+
     methods: ["GET", "POST"],
     optionsSuccessStatus: 200,
   },
@@ -39,6 +44,7 @@ app.use("/api/watch", movieRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/music", musicRoutes);
 app.use("/api/meme", memeRoutes);
+app.use("/api/post", postRoutes);
 
 const users = [{}];
 
@@ -80,6 +86,7 @@ io.on("connection", (socket) => {
   });
 });
 
+mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => {

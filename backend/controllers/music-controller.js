@@ -21,12 +21,10 @@ const createMusic = async (req, res, next) => {
     return next(error);
   }
 
-  res
-    .status(201)
-    .json({
-      message: "Created song successfully",
-      music: createdMusic.toObject({ getters: true }),
-    });
+  res.status(201).json({
+    message: "Created song successfully",
+    music: createdMusic.toObject({ getters: true }),
+  });
 };
 
 const getMusics = async (req, res, next) => {
@@ -54,7 +52,7 @@ const getMusicById = async (req, res, next) => {
     music = await Music.findById(musicId);
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not find a Movie.",
+      "Something went wrong, could not find a song.",
       500
     );
     return next(error);
@@ -62,7 +60,7 @@ const getMusicById = async (req, res, next) => {
 
   if (!music) {
     const error = new HttpError(
-      "Could not find a Movie for the provided id.",
+      "Could not find a song for the provided id.",
       404
     );
     return next(error);
