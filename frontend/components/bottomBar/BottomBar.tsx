@@ -8,6 +8,9 @@ import { FaHome } from "react-icons/fa";
 import LoginSignup from "../loginSignup/LoginSignup";
 
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
+import { FcKey } from "react-icons/fc";
+import Link from "next/link";
 
 const BottomBar = () => {
   const [active, setactive] = useState("active");
@@ -49,13 +52,39 @@ const BottomBar = () => {
           name="Home"
           isHome={"active"}
         />
-
-        <Menucontainer
-          link={"/underWork"}
-          icon={<SiGooglechat className="text-2xl" />}
-          name="Community"
-          isHome={""}
-        />
+        {data ? (
+          // <Menucontainer
+          //   link={"/community"}
+          //   icon={<SiGooglechat className="text-2xl" />}
+          //   name="Community"
+          //   isHome={""}
+          // />
+          <li>
+            <a>
+              <Link href="/community">
+                <span className="icon">
+                  {<SiGooglechat className="text-2xl" />}
+                </span>
+              </Link>
+              <span className="name">Community</span>
+            </a>
+          </li>
+        ) : (
+          <li
+            onClick={() =>
+              toast.error("Login to continue", {
+                icon: <FcKey />,
+              })
+            }
+          >
+            <a>
+              <span className="icon">
+                {<SiGooglechat className="text-2xl" />}
+              </span>
+              <span className="name">Community</span>
+            </a>
+          </li>
+        )}
         {data ? (
           <Menucontainer
             link={""}

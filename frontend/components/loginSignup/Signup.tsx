@@ -10,17 +10,28 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { literal, object, string, TypeOf } from "zod";
+import { literal, object, optional, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Dropzone from "react-dropzone";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import { IoPerson } from "react-icons/io5";
-import { MdEmail, MdPassword, MdPhone } from "react-icons/md";
+import { IoLocation, IoPerson } from "react-icons/io5";
+import {
+  MdDelete,
+  MdEdit,
+  MdEmail,
+  MdImage,
+  MdPassword,
+  MdPhone,
+  MdWork,
+} from "react-icons/md";
 
 import DialogActions from "@mui/material/DialogActions";
 
 import axios from "../../axios/axios";
+import toast from "react-hot-toast";
+import { SiGhostery } from "react-icons/si";
 
 const registerSchema = object({
   userName: string()
@@ -28,6 +39,8 @@ const registerSchema = object({
     .max(32, "Name must be less than 100 characters"),
   email: string().nonempty("Email is required").email("Email is invalid"),
   phoneNumber: string().nonempty("Phone Number is required").min(10).max(10),
+  location: string().nonempty("Location is required"),
+  occupation: string().nonempty("Occupation is required"),
   password: string()
     .nonempty("Password is required")
     .min(8, "Password must be more than 8 characters")
@@ -42,8 +55,17 @@ const registerSchema = object({
 });
 
 type RegisterInput = TypeOf<typeof registerSchema>;
+type imageType = {
+  lastModified: Date;
+  name: string;
+  path: string;
+  size: number;
+  type: string;
+};
 
 const Signup = ({ handlecloseHandler }: any) => {
+  const [image, setImage] = useState<any>();
+  const [isImage, setIsImage] = useState(false);
   const {
     register,
     formState: { errors, isSubmitSuccessful },
@@ -60,14 +82,27 @@ const Signup = ({ handlecloseHandler }: any) => {
   }, [isSubmitSuccessful]);
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = (values) => {
-    const json = JSON.stringify(values);
+    var form = new FormData();
+    for (var key in values) {
+      form.append(key, values[key]);
+    }
+
+    if (image) {
+      form.append("picture", image);
+      form.append("picturePath", image.name);
+    }
+    // const json = JSON.stringify(values);
     axios
-      .post("/users/signup/", json, {
+      .post("/users/signup/", form, {
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
+        // headers: {
+        //   Accept: "application/json",
+        //   "Content-Type": "application/json",
+        // },
       })
+      .then(() => toast.success("Account Created"))
       .then(() => handlecloseHandler((prev: boolean) => !prev))
       .then(() => console.log("signup done"))
       .catch((error) => console.log(error));
@@ -221,7 +256,90 @@ const Signup = ({ handlecloseHandler }: any) => {
                     ),
                   }}
                 />
-
+                <TextField
+                  margin="dense"
+                  label="Location"
+                  placeholder="Enter Location"
+                  fullWidth
+                  color="primary"
+                  required
+                  error={!!errors["location"]}
+                  helperText={
+                    errors["location"] ? errors["location"].message : ""
+                  }
+                  sx={{
+                    "& .MuiInputLabel-root": { color: "#aaa" }, //styles the label
+                    "& .MuiOutlinedInput-root": {
+                      "& > fieldset": { borderColor: "#363a3c" },
+                    },
+                    "& .MuiOutlinedInput-root.Mui-focused": {
+                      "& > fieldset": {
+                        borderColor: "white",
+                        color: "#aaa",
+                      },
+                    },
+                    "& .MuiOutlinedInput-root:hover": {
+                      "& > fieldset": {
+                        borderColor: "white",
+                        color: "#aaa",
+                      },
+                    },
+                    "& .MuiInputBase-root": {
+                      color: "#aaa",
+                    },
+                  }}
+                  variant="outlined"
+                  {...register("location")}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IoLocation className="text-[#757575] text-xl" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <TextField
+                  margin="dense"
+                  label="Occupation"
+                  placeholder="Enter Occupation"
+                  fullWidth
+                  color="primary"
+                  required
+                  error={!!errors["occupation"]}
+                  helperText={
+                    errors["occupation"] ? errors["occupation"].message : ""
+                  }
+                  sx={{
+                    "& .MuiInputLabel-root": { color: "#aaa" }, //styles the label
+                    "& .MuiOutlinedInput-root": {
+                      "& > fieldset": { borderColor: "#363a3c" },
+                    },
+                    "& .MuiOutlinedInput-root.Mui-focused": {
+                      "& > fieldset": {
+                        borderColor: "white",
+                        color: "#aaa",
+                      },
+                    },
+                    "& .MuiOutlinedInput-root:hover": {
+                      "& > fieldset": {
+                        borderColor: "white",
+                        color: "#aaa",
+                      },
+                    },
+                    "& .MuiInputBase-root": {
+                      color: "#aaa",
+                    },
+                  }}
+                  variant="outlined"
+                  {...register("occupation")}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <MdWork className="text-[#757575] text-xl" />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
                 <TextField
                   label="Password"
                   margin="dense"
@@ -308,7 +426,52 @@ const Signup = ({ handlecloseHandler }: any) => {
                     ),
                   }}
                 />
-
+                <div
+                  className="flex justify-start items-center gap-[0.7rem] my-1 hover:cursor-pointer"
+                  onClick={() => setIsImage(!isImage)}
+                >
+                  <SiGhostery className="text-[20px]" />
+                  <h2>Choose Avatar for Yourself</h2>
+                </div>
+                {isImage && (
+                  <div className="p-4 mt-4 rounded-[5px] border-4 border-white">
+                    <Dropzone
+                      // acceptedFiles=".jpg,.jpeg,.png"
+                      multiple={false}
+                      onDrop={(acceptedFiles) => setImage(acceptedFiles[0])}
+                    >
+                      {({ getRootProps, getInputProps }) => (
+                        <div className="flex justify-between items-center">
+                          <div
+                            className="p-4 w-full hover:cursor-pointer border-dotted border-2 border-white"
+                            {...getRootProps()}
+                          >
+                            <input type="file" {...getInputProps()} />
+                            {!image ? (
+                              <p>
+                                Drag 'n' drop some image here, or click to
+                                select image
+                              </p>
+                            ) : (
+                              <div className="flex justify-between items-center">
+                                <h3>{image.name}</h3>
+                                <MdEdit className="hover:cursor-pointer text-[20px]" />
+                              </div>
+                            )}
+                          </div>
+                          {image && (
+                            <div
+                              onClick={() => setImage(null)}
+                              className="hover:cursor-pointer text-[20px]"
+                            >
+                              <MdDelete />
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </Dropzone>
+                  </div>
+                )}
                 <FormGroup>
                   <FormControlLabel
                     control={<Checkbox required />}

@@ -4,6 +4,7 @@ import { MdOutlineClear } from "react-icons/md";
 import { BiSearchAlt } from "react-icons/bi";
 import { GiThreeFriends } from "react-icons/gi";
 import { FaRandom } from "react-icons/fa";
+import { FcKey } from "react-icons/fc";
 
 import axios from "../../axios/axios";
 import Link from "next/link";
@@ -11,9 +12,9 @@ import Link from "next/link";
 import LoginSignup from "../loginSignup/LoginSignup";
 import { useSession } from "next-auth/react";
 
-import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
 import React from "react";
+import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 const ROUTE_POST_ID = "watch/[seriesid]";
 
@@ -37,6 +38,7 @@ type ranMovieType = {
 };
 
 const Topbar = () => {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [moviedata, setmoviedata] = useState<moviedataType[]>([]);
   const [isLoading, setLoading] = useState(false);
@@ -140,6 +142,14 @@ const Topbar = () => {
     setAnchorEl(null);
   };
 
+  const handleWatchTogether = () => {
+    session?.user
+      ? router.push("/watchtogether")
+      : toast.error("Login to continue", {
+          icon: <FcKey />,
+        });
+  };
+
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
@@ -217,52 +227,13 @@ const Topbar = () => {
 
           <div className="hidden md:block">
             <div className="flex">
-              {status === "authenticated" ? (
-                <Link href={"/watchtogether"}>
-                  <div className="flex flex-col justify-center items-center cursor-pointer  hover:text-red-500  text-[#aaa]">
-                    <GiThreeFriends className="text-2xl " />
-                    <h6>Watch Together</h6>
-                  </div>
-                </Link>
-              ) : (
-                <>
-                  <div
-                    className="flex  flex-col justify-center items-center cursor-pointer  hover:text-red-500  text-[#aaa]"
-                    onClick={handleClick}
-                  >
-                    <GiThreeFriends className="text-2xl " />
-                    <h6>Watch Together</h6>
-                  </div>
-                  <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left",
-                    }}
-                    sx={{
-                      // "&.MuiPopover-root": {
-                      //   backgroundColor: "blue",
-                      //   border: "1px solid black",
-                      // },
-                      "&.MuiPopover-paper": {
-                        backgroundColor: "blue",
-                        color: "blue",
-                      },
-                    }}
-                  >
-                    <Typography sx={{ p: 2 }}>Login to use</Typography>
-                  </Popover>
-                </>
-              )}
-              {/* <Link href={"/watchtogether"}>
-                <div className="flex flex-col justify-center items-center cursor-pointer  hover:text-red-500 text-[#aaa]">
-                  <GiThreeFriends className="text-2xl " />
-                  <h6>Watch Together</h6>
-                </div>
-              </Link> */}
+              <div
+                onClick={handleWatchTogether}
+                className="flex flex-col justify-center items-center cursor-pointer  hover:text-red-500  text-[#aaa]"
+              >
+                <GiThreeFriends className="text-2xl " />
+                <h6>Watch Together</h6>
+              </div>
               <Link
                 href={{
                   pathname: ROUTE_POST_ID,

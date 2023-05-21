@@ -15,6 +15,7 @@ import { BsPersonBadgeFill } from "react-icons/bs";
 import { signIn, useSession } from "next-auth/react";
 
 import LoadingStyle from "../loadingStyle/LoadingStyle";
+import toast from "react-hot-toast";
 
 const signinSchema = object({
   email: string().nonempty("Email is required").email("Email is invalid"),
@@ -26,7 +27,7 @@ const signinSchema = object({
 
 type SigninInput = TypeOf<typeof signinSchema>;
 
-const LogIn = ({ handlecloseHandler }:any) => {
+const LogIn = ({ handlecloseHandler }: any) => {
   const { data, status } = useSession();
   const [authStatuserror, setauthStatuserror] = useState(true);
 
@@ -66,10 +67,10 @@ const LogIn = ({ handlecloseHandler }:any) => {
     }
 
     if (status === "authenticated") {
+      toast.success("Login Successfully !!!");
       handlecloseHandler((prev: boolean) => !prev);
     }
   };
-  console.log(errors);
 
   async function handleGithubSignin() {
     signIn("github", { callbackUrl: "/" });
@@ -78,10 +79,11 @@ const LogIn = ({ handlecloseHandler }:any) => {
   const onGuestLogin = async () => {
     await signIn("credentials", {
       redirect: false,
-      email: "test@gmail.com",
+      email: "rahul@gmail.com",
       password: "test@123",
       // callbackUrl: "/",
     });
+    toast.success("Login Successfully !!!");
     if (status === "authenticated") {
       handlecloseHandler((prev: boolean) => !prev);
     }

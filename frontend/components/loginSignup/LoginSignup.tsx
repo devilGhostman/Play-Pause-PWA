@@ -12,6 +12,8 @@ import { signOut, useSession } from "next-auth/react";
 import LogIn from "./LogIn";
 import Signup from "./Signup";
 
+import Link from "next/link";
+
 const LoginSignup = () => {
   const { data, status } = useSession();
 
@@ -37,7 +39,7 @@ const LoginSignup = () => {
 
   const onSignOut = () => {
     setisSignin(!isSignin);
-    signOut();
+    signOut({ callbackUrl: "https://play-pause-pwa.vercel.app/" });
     setOpen(false);
   };
 
@@ -46,6 +48,13 @@ const LoginSignup = () => {
       {data ? (
         <>
           <MdLogout onClick={handleClickOpen} className="text-2xl" />
+          {/* <div className="h-[25px] w-[25px]">
+            <img
+              className="rounded-[20%] object-cover w-[25px] h-[25px]"
+              src={`http://localhost:5000/userProfile/${data?.user.image}`}
+              alt="user"
+            />
+          </div> */}
         </>
       ) : (
         <>
