@@ -10,7 +10,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import { literal, object, optional, string, TypeOf } from "zod";
+import { any, literal, object, optional, string, TypeOf } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Dropzone from "react-dropzone";
 
@@ -63,6 +63,10 @@ type imageType = {
   type: string;
 };
 
+interface values {
+  [key: string]: string | boolean;
+}
+
 const Signup = ({ handlecloseHandler }: any) => {
   const [image, setImage] = useState<any>();
   const [isImage, setIsImage] = useState(false);
@@ -82,16 +86,20 @@ const Signup = ({ handlecloseHandler }: any) => {
   }, [isSubmitSuccessful]);
 
   const onSubmitHandler: SubmitHandler<RegisterInput> = (values) => {
+    const val: values = values;
     var form = new FormData();
-    for (var key in values) {
-      form.append(key, values[key]);
+
+    for (var key in val) {
+      if (val.hasOwnProperty(key)) {
+        form.append(key, val[key].toString());
+      }
     }
 
     if (image) {
       form.append("picture", image);
       form.append("picturePath", image.name);
     }
-    // const json = JSON.stringify(values);
+    const json = JSON.stringify(values);
     axios
       .post("/users/signup/", form, {
         headers: {
@@ -107,7 +115,6 @@ const Signup = ({ handlecloseHandler }: any) => {
       .then(() => console.log("signup done"))
       .catch((error) => console.log(error));
   };
-  console.log(errors);
 
   const handleClose = () => {
     handlecloseHandler((prev: boolean) => !prev);

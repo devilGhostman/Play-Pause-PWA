@@ -15,7 +15,6 @@ const FriendList = () => {
   const [isLoading, setisLoading] = useState(false);
 
   const getFriends = async () => {
- 
     const res = await axios.get(
       `https://play-pause-api.onrender.com/api/users/${data?.user.id}/friends`,
       {
@@ -35,7 +34,7 @@ const FriendList = () => {
   useEffect(() => {
     setisLoading(true);
     getFriends();
-  }, [data]); 
+  }, [data]);
 
   if (isLoading) {
     return <p>Loading..</p>;

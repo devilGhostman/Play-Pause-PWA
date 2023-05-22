@@ -1,18 +1,12 @@
 import Link from "next/link";
 
-import {
-  ReactElement,
-  JSXElementConstructor,
-} from "react";
-
+import { ReactElement, JSXElementConstructor } from "react";
 
 export const Menucontainer = (props: {
-  name: string ;
+  name: string;
   isHome: string;
-  link: string ;
-  icon:
-    | string
-    | ReactElement<any, string | JSXElementConstructor<any>>;
+  link: string;
+  icon: string | ReactElement<any, string | JSXElementConstructor<any>>;
 }) => {
   return (
     <li className={props.isHome ? `active` : ``}>

@@ -24,12 +24,15 @@ const PostFeed = () => {
   const [posts, setPosts] = useState<postType[]>([]);
   const [isLoading, setisLoading] = useState(false);
   const getPost = async () => {
-    const res = await axios.get(`https://play-pause-api.onrender.com/api/post`, {
-      headers: {
-        Authorization: `Bearer ${data?.user.token}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await axios.get(
+      `https://play-pause-api.onrender.com/api/post`,
+      {
+        headers: {
+          Authorization: `Bearer ${data?.user.token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     console.log(res.data.posts);
     setPosts(res.data.posts);
     setTimeout(() => {

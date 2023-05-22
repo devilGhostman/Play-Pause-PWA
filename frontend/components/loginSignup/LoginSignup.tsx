@@ -12,8 +12,6 @@ import { signOut, useSession } from "next-auth/react";
 import LogIn from "./LogIn";
 import Signup from "./Signup";
 
-import Link from "next/link";
-
 const LoginSignup = () => {
   const { data, status } = useSession();
 
