@@ -36,14 +36,14 @@ npm i
 
 
 ```js
-MONGODB_URL =
-PORT_NO = 5000
+MONGODB_URL=
+PORT_NO=5000
 ```
 
 ### Setup .env file in frontend folder
 
 
-```js
+```jsdocker 
 GITHUB_ID=
 GITHUB_SECRET=
 ```
@@ -59,6 +59,45 @@ npm start
 ```shell
 npm run dev
 ```
+# Set up Docker
+## 1.Create image and container by yourself
+### Create images
+```shell
+cd backend/
+docker build -t backend:latest .
+cd ..
+cd frontend/
+docker build -t frontend:latest .
+```
+### Create container 
+```shel
+cd backend/
+docker run --name pp-api --rm -d -p 5000:5000 --env-file ./.env backend:latest
+cd ..
+cd frontend/
+docker run --name pp-app --rm -d -p 3000:3000 -it --env-file ./.env.local frontend:latest
+```
+- Now browse to `localhost:3000` to get to the page. 
+- To stop the container
+```shell
+docker stop pp-api pp-app
+```
+- To remove the images
+```shell
+docker rmi backend:latest frontend:latest
+```
+
+## 2.Use docker-compose to do it itself
+### Create and start the container
+- From the root of the repository run the command:
+```shell
+docker-compose up -d
+```
+### Stop and remove the container
+```shell
+docker-compose down
+```
+
 
 ## Available commands
 
