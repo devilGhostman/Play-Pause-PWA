@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: backend
+    build: ./backend
+    ports:
+      - '5000:5000'
+    env_file:
+      - ./backend/.env
+    volumes:
+      -./backend/movies:/app/movies
+      -./backend/posts:/app/posts
+      -./backend/songs:/app/songs
+      -./backend/userProfile:/app/userProfile
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./frontend/.env.local
+    depends_on:
+      - backend
+    stdin_open: true
+    tty: true
+
+
